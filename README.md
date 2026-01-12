@@ -38,6 +38,28 @@ https://lantian.pub/article/modify-computer/sidestore-without-stosvpn-across-lan
 在开始之前，请确保你的客户端环境支持同时使用
 **日常的互联网访问工具**与 WireGuard 隧道，这很重要。
 
-1. 用你最喜欢的 Docker 工作流构建这个镜像，然后把两份 config 按照标准的 WireGuard 方式配置正确后，按照 linuxserver/wireguard 中描述的方式启动你的容器。
-2. 在**你平时使用的互联网访问工具**中配置一条 IP-CIDR 规则将 10.7.0.1/32 的流量通过专用的 WireGuard 服务端。
-3. 前往 SideStore 续签。
+```bash
+# 1. Clone 项目
+git clone https://github.com/lj2000lj/SideStore-WireGuard.git
+cd SideStore-WireGuard
+
+# 2. 生成配置文件
+# 你可以在这个时候修改 .env 中记载的端口号
+# 该步骤将会生成以下文件：
+#   - client.conf # WireGuard 客户端使用
+#   - config/wg_confs/server.conf # WireGuard 服务端使用
+# 若未提供公网 IP，需要手动修改 client.conf 中的 Endpoint。
+docker compose run --rm sidestore-wireguard ./init-wg.sh
+# 可选：传入服务器公网 IP 以自动填写 client.conf 中的 Endpoint
+# 示例：
+# docker compose run --rm sidestore-wireguard ./init-wg.sh 1.2.3.4
+
+# 3. 启动 WireGuard 服务端
+docker compose up -d
+
+# 4. 在**你平时使用的互联网访问工具**中配置一条 IP-CIDR 规则:
+#     10.7.0.1/32  →  WireGuard 服务端
+
+# 5. 前往 SideStore 续签。
+
+```
