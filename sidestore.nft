@@ -1,0 +1,12 @@
+table inet sidestore {
+  chain RAW_PREROUTING {
+    type filter hook prerouting priority raw; policy accept;
+
+    # iOS -> loop back to itself
+    ip saddr 10.7.0.0 ip daddr 10.7.0.1 \
+      ip saddr set 10.7.0.1 \
+      ip daddr set 10.7.0.0 \
+      notrack
+  }
+}
+
