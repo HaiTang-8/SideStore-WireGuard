@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+[ -f .env ] && . ./.env
+
 SERVER_IP="$1"
 : "${WG_PORT:?WG_PORT must be set in .env}"
 PORT="$WG_PORT"
