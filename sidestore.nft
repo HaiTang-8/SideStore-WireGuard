@@ -8,5 +8,11 @@ table inet sidestore {
       ip daddr set 10.7.0.0 \
       notrack
   }
+
+  chain POSTROUTING {
+    type nat hook postrouting priority srcnat; policy accept;
+
+    ip saddr 10.7.0.0/24 oifname != "wg0" masquerade
+  }
 }
 
