@@ -13,6 +13,7 @@ usage() {
   echo "  $0 [SERVER_IP]         Initial setup (generate keys + configs)"
   echo "  $0 qr                  Show QR code from existing client.conf"
   echo "  $0 update-ip SERVER_IP Update server IP in client.conf"
+  echo "  $0 sync-routes          Sync AllowedIPs from template to client.conf"
   exit 1
 }
 
@@ -38,6 +39,18 @@ cmd_update_ip() {
   fi
   sed -i "s|^Endpoint = .*|Endpoint = ${NEW_IP}:${PORT}|" "$CLIENT_CONF"
   echo "Endpoint updated to ${NEW_IP}:${PORT}"
+  echo ""
+  show_qr
+}
+
+cmd_sync_routes() {
+  if [ ! -f "$CLIENT_CONF" ]; then
+    echo "ERROR: $CLIENT_CONF not found. Run initial setup first." >&2
+    exit 1
+  fi
+  ALLOWED=$(grep '^AllowedIPs' /work/client.example.conf | sed 's/^AllowedIPs = //')
+  sed -i "s|^AllowedIPs = .*|AllowedIPs = ${ALLOWED}|" "$CLIENT_CONF"
+  echo "AllowedIPs updated to: ${ALLOWED}"
   echo ""
   show_qr
 }
@@ -88,6 +101,9 @@ case "${1:-}" in
   update-ip)
     shift
     cmd_update_ip "$1"
+    ;;
+  sync-routes)
+    cmd_sync_routes
     ;;
   -h|--help|help)
     usage
