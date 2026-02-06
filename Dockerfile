@@ -1,7 +1,7 @@
 FROM lscr.io/linuxserver/wireguard:latest
 
 RUN \
-  apk add --no-cache nftables iproute2
+  apk add --no-cache nftables iproute2 libqrencode-tools
 
 COPY sidestore.nft /etc/nftables/sidestore.nft
 

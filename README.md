@@ -54,6 +54,12 @@ docker compose run --rm sidestore-wireguard ./init-wg.sh
 # 示例：
 # docker compose run --rm sidestore-wireguard ./init-wg.sh 1.2.3.4
 
+# 重新显示客户端配置的 QR 码（如需再次扫描）：
+# docker compose run --rm sidestore-wireguard ./init-wg.sh qr
+
+# 服务器 IP 变更后更新客户端配置：
+# docker compose run --rm sidestore-wireguard ./init-wg.sh update-ip 5.6.7.8
+
 # 3. 启动 WireGuard 服务端
 docker compose up -d
 
