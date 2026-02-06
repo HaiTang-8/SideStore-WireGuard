@@ -1,5 +1,6 @@
 services:
   sidestore-wireguard:
+    build: .
     image: ghcr.io/lj2000lj/sidestore-wireguard:latest
     container_name: sidestore-wireguard
     working_dir: /work
