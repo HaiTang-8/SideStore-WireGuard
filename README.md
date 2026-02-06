@@ -10,7 +10,9 @@ It is **only** required in Mainland China. (Completely unnecessary elsewhere. Yo
 
 It does **not** replace LocalDevVPN or StosVPN. It only exists for environments where those solutions do not work.
 
-This setup routes traffic to `10.7.0.1/32` into a dedicated WireGuard server and folds it back to the iOS device itself, satisfying SideStore’s VPN check without running a full VPN gateway.
+This setup routes traffic to `10.7.0.1/32` into a dedicated WireGuard server and folds it back to the iOS device itself, satisfying SideStore's VPN check without running a full VPN gateway.
+
+It also forwards Apple service traffic (`17.0.0.0/8`, including `gas.apple.com`) through the server, enabling anisette verification relay for environments where direct access to Apple services is unreliable.
 
 Single-device only. Not a general-purpose VPN.
 
@@ -30,6 +32,8 @@ https://lantian.pub/article/modify-computer/sidestore-without-stosvpn-across-lan
 简而言之，你需要让**你平时使用的互联网访问工具**把一切发往 10.7.0.1/32 的数据包转发到我们这份专用的 WireGuard 服务端。
 
 本方案**不会**转发其它内网或互联网流量，仅用于满足 SideStore 的 VPN 检查。
+
+此外，本方案还会将 Apple 服务流量（`17.0.0.0/8`，包含 `gas.apple.com`）通过服务端中转，用于解决大陆环境下 anisette 验证不稳定的问题。隧道激活期间，所有 Apple 服务（iCloud、App Store 等）的流量都会经由服务端转发。
 
 如果你对细节感兴趣，请参阅上述教程。简要来说，我们通过 IP 地址判定分流，将发往 10.7.0.1/32 的数据包包装了一下发回给了你的 iOS 设备。
 
